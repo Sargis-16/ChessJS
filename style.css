@@ -1,0 +1,89 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+  --black-cell-color: #9a4a2c;
+  --white-cell-color: #e7d6be;
+  --border-color: #c25b36;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #222;
+}
+
+.board {
+  width: 800px;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--black-cell-color);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+main {
+  display: flex;
+  height: 100%;
+}
+
+.lines {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding-inline: 5px;
+}
+
+.col-names {
+  display: flex;
+  justify-content: space-evenly;
+  padding-block: 5px;
+  gap: 25px;
+}
+
+.cells {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cell {
+  width: 12.5%;
+  height: 12.5%;
+  background: var(--white-cell-color);
+}
+
+.cell,
+.cell-black {
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cell-black {
+  background-color: var(--black-cell-color);
+}
+
+.cell:hover {
+  background-color: #196319;
+}
+
+.outline {
+  background: var(--black-cell-color);
+  color: var(--white-cell-color);
+}
