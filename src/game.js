@@ -1,16 +1,60 @@
 let board = [];
+const cells = document.querySelectorAll(".cell");
 
 const initBoard = () => {
   for (let i = 0; i < 8; i++) {
     let arr = [];
     for (let j = 0; j < 8; j++) {
-      arr.push({ x: i, y: j, name: "Empty", path: "null", color: "None" });
+      arr.push({ x: i, y: j, name: "empty", path: "null", color: "None" });
     }
     board.push(arr);
   }
+  let dx = 4,
+    dy = 4;
+  board[dx][dy] = {
+    x: dx,
+    y: dy,
+    name: "King",
+    path: "images/black/King.svg",
+    color: "black",
+  };
+  (dx = 5), (dy = 3);
+  board[dx][dy] = {
+    x: dx,
+    y: dy,
+    name: "Pawn",
+    path: "images/white/Pawn.svg",
+    color: "white",
+  };
 };
 
-initBoard();
+const getInitial = (name) => {
+  switch (name) {
+    case "Rook":
+      return "R";
+
+    case "Knight":
+      return "Kn";
+
+    case "Bishop":
+      return "B";
+
+    case "King":
+      return "K";
+
+    case "Queen":
+      return "Q";
+
+    case "Pawn":
+      return "P";
+    default:
+      return "E";
+  }
+};
+
+const printCell = (cell) => {
+  console.log(cell.x + 1, String.fromCharCode(cell.y + 65));
+};
 
 const getWithCoordinates = (x, y) => {
   return board[x][y];
@@ -64,12 +108,14 @@ const setPieces = () => {
   initPiece(7, 4, "images/black/King.svg", "King", "black");
 };
 
-const cells = document.querySelectorAll(".cell");
+const displayBoard = () => {
+  cells.forEach((cell) => {
+    let c = getWithCoordinates(cell.x, cell.y);
+    if (c.path == "null") return;
+    cell.style.backgroundImage = `url(${c.path})`;
+  });
+};
 
-setPieces();
-
-cells.forEach((cell) => {
-  let c = getWithCoordinates(cell.x, cell.y);
-  if (c.path == "null") return;
-  cell.style.backgroundImage = `url(${c.path})`;
-});
+initBoard();
+// setPieces();
+displayBoard();
