@@ -5,27 +5,27 @@ const initBoard = () => {
   for (let i = 0; i < 8; i++) {
     let arr = [];
     for (let j = 0; j < 8; j++) {
-      arr.push({ x: i, y: j, name: "empty", path: "null", color: "None" });
+      arr.push({ x: i, y: j, name: "empty", path: "null", color: "none" });
     }
     board.push(arr);
   }
-  let dx = 4,
-    dy = 4;
-  board[dx][dy] = {
-    x: dx,
-    y: dy,
-    name: "King",
-    path: "images/black/King.svg",
-    color: "black",
-  };
-  (dx = 5), (dy = 3);
-  board[dx][dy] = {
-    x: dx,
-    y: dy,
-    name: "Pawn",
-    path: "images/white/Pawn.svg",
-    color: "white",
-  };
+  // let dx = 3,
+  //   dy = 4;
+  // board[dx][dy] = {
+  //   x: dx,
+  //   y: dy,
+  //   name: "Knight",
+  //   path: "images/black/Knight.svg",
+  //   color: "black",
+  // };
+  // (dx = 5), (dy = 3);
+  // board[dx][dy] = {
+  //   x: dx,
+  //   y: dy,
+  //   name: "Pawn",
+  //   path: "images/white/Pawn.svg",
+  //   color: "white",
+  // };
 };
 
 const getInitial = (name) => {
@@ -56,6 +56,10 @@ const printCell = (cell) => {
   console.log(cell.x + 1, String.fromCharCode(cell.y + 65));
 };
 
+const get = (pos) => {
+  return board[pos.x][pos.y];
+};
+
 const getWithCoordinates = (x, y) => {
   return board[x][y];
 };
@@ -70,17 +74,17 @@ const initPiece = (x, y, path, name, color) => {
 
 const setPieces = () => {
   // Pawns
-  for (let i = 0; i < 8; i++) {
-    initPiece(1, i, "images/white/Pawn.svg", "Pawn", "white");
+  // for (let i = 0; i < 8; i++) {
+  //   initPiece(1, i, "images/white/Pawn.svg", "Pawn", "white");
 
-    initPiece(6, i, "images/black/Pawn.svg", "Pawn", "black");
-  }
+  //   initPiece(6, i, "images/black/Pawn.svg", "Pawn", "black");
+  // }
 
   // Rooks
   initPiece(0, 0, "images/white/Rook.svg", "Rook", "white");
   initPiece(0, 7, "images/white/Rook.svg", "Rook", "white");
 
-  initPiece(7, 0, "images/black/Rook.svg", "Rook", "black");
+  initPiece(6, 0, "images/black/Rook.svg", "Rook", "black");
   initPiece(7, 7, "images/black/Rook.svg", "Rook", "black");
 
   // Knights
@@ -100,7 +104,7 @@ const setPieces = () => {
   // Queens
   initPiece(0, 3, "images/white/Queen.svg", "Queen", "white");
 
-  initPiece(7, 3, "images/black/Queen.svg", "Queen", "White");
+  initPiece(7, 3, "images/black/Queen.svg", "Queen", "black");
 
   // Kings
   initPiece(0, 4, "images/white/King.svg", "King", "white");
@@ -117,5 +121,5 @@ const displayBoard = () => {
 };
 
 initBoard();
-// setPieces();
+setPieces();
 displayBoard();

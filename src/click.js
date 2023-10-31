@@ -1,5 +1,17 @@
 const canTake = (color1, color2) => {
-  return color1 != color2;
+  if (
+    (color1 == "black" && color2 == "white") ||
+    (color1 == "white" && color2 == "black") ||
+    color1 == "none" ||
+    color2 == "none"
+  )
+    return true;
+  return false;
+};
+
+const isValid = (pos) => {
+  if (pos.x < 0 || pos.x > 7 || pos.y > 7 || pos.y < 0) return false;
+  return true;
 };
 
 const getMoves = (cell) => {
@@ -27,26 +39,34 @@ const getMoves = (cell) => {
       return moves;
     case "Rook":
       // Vertical
+      let pieceMet = false;
       for (let i = 1; cell.x + i < 8; i++) {
-        if (getWithCoordinates(cell.x + i, cell.y).name == "empty")
-          moves.push({ x: cell.x + i, y: cell.y });
-        else break;
+        let pos = { x: cell.x + i, y: cell.y };
+        if (canTake(get(pos).color, cell.color) && !pieceMet) moves.push(pos);
+        if (get(pos).name != "empty") pieceMet = true;
+        else continue;
       }
       for (let i = 1; cell.x - i >= 0; i++) {
-        if (getWithCoordinates(cell.x - i, cell.y).name == "empty")
-          moves.push({ x: cell.x - i, y: cell.y });
+        let pos = { x: cell.x - i, y: cell.y };
+        if (get(pos).name == "empty")
+          if (canTake(get(pos).color, cell.color)) moves.push(pos);
+          else continue;
         else break;
       }
 
       //   // Horizontal
       for (let i = 1; cell.y + i < 8; i++) {
-        if (getWithCoordinates(cell.x, cell.y + i).name == "empty")
-          moves.push({ x: cell.x, y: cell.y + i });
+        let pos = { x: cell.x, y: cell.y + i };
+        if (get(pos).name == "empty")
+          if (canTake(get(pos).color, cell.color)) moves.push(pos);
+          else continue;
         else break;
       }
       for (let i = 1; cell.y - i >= 0; i++) {
-        if (getWithCoordinates(cell.x, cell.y - i).name == "empty")
-          moves.push({ x: cell.x, y: cell.y - i });
+        let pos = { x: cell.x, y: cell.y - i };
+        if (get(pos).name == "empty")
+          if (canTake(get(pos).color, cell.color)) moves.push(pos);
+          else continue;
         else break;
       }
       return moves;
@@ -128,41 +148,33 @@ const getMoves = (cell) => {
       for (let i = -2; i <= 2; i++) {
         if (i == 0) continue;
         let j = Math.abs(i) == 2 ? 1 : 2;
+        let pos = { x: cell.x + i, y: cell.y + j };
+
         if (
-          cell.x + i < 8 &&
-          cell.y + j < 8 &&
-          (getWithCoordinates(cell.x + i, cell.y + j).name == "empty" ||
-            canTake(
-              getWithCoordinates(cell.x + i, cell.y + j).color,
-              cell.color
-            ))
+          isValid(pos) &&
+          (get(pos).name == "empty" || canTake(get(pos).color, cell.color))
         )
-          moves.push({ x: cell.x + i, y: cell.y + j });
+          moves.push(pos);
+        pos = { x: cell.x - i, y: cell.y - j };
         if (
-          cell.x - i >= 0 &&
-          cell.y - j >= 0 &&
-          (getWithCoordinates(cell.x - i, cell.y - j).name == "empty" ||
-            canTake(
-              getWithCoordinates(cell.x - i, cell.y - j).color,
-              cell.color
-            ))
+          isValid(pos) &&
+          (get(pos).name == "empty" || canTake(get(pos).color, cell.color))
         )
-          moves.push({ x: cell.x - i, y: cell.y - j });
+          moves.push(pos);
       }
       return moves;
     case "King":
       for (let i = -1; i <= 1; i++) {
         for (let j = -1; j <= 1; j++) {
           let isSame = i == 0 && j == 0;
+          let pos = { x: cell.x + i, y: cell.y + j };
           if (
-            (getWithCoordinates(cell.x + i, cell.y + j).name == "empty" &&
-              !isSame) ||
-            canTake(
-              getWithCoordinates(cell.x + i, cell.y + j).color,
-              cell.color
-            )
+            isValid(pos) &&
+            !isSame &&
+            get(pos).name == "empty" &&
+            canTake(get(pos).color, cell.color)
           )
-            moves.push({ x: cell.x + i, y: cell.y + j });
+            moves.push(pos);
         }
       }
       return moves;
