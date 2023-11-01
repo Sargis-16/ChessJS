@@ -109,3 +109,50 @@ main {
   border-radius: 50%;
   opacity: 0.5;
 }
+
+#modal {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.1);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-open {
+  display: flex !important;
+}
+
+#promo-menu {
+  background: white;
+  height: 30%;
+  width: 50%;
+  opacity: 1;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#imgs {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.piece-img {
+  aspect-ratio: 1;
+  width: 20%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.piece-img:hover {
+  background-color: green;
+}

@@ -5,7 +5,13 @@ const initBoard = () => {
   for (let i = 0; i < 8; i++) {
     let arr = [];
     for (let j = 0; j < 8; j++) {
-      arr.push({ x: i, y: j, name: "empty", path: "null", color: "none" });
+      arr.push({
+        x: i,
+        y: j,
+        name: "empty",
+        path: "null",
+        color: "none",
+      });
     }
     board.push(arr);
   }
@@ -14,17 +20,9 @@ const initBoard = () => {
   // board[dx][dy] = {
   //   x: dx,
   //   y: dy,
-  //   name: "Knight",
-  //   path: "images/black/Knight.svg",
+  //   name: "Queen",
+  //   path: "images/black/Queen.svg",
   //   color: "black",
-  // };
-  // (dx = 5), (dy = 3);
-  // board[dx][dy] = {
-  //   x: dx,
-  //   y: dy,
-  //   name: "Pawn",
-  //   path: "images/white/Pawn.svg",
-  //   color: "white",
   // };
 };
 
@@ -74,17 +72,17 @@ const initPiece = (x, y, path, name, color) => {
 
 const setPieces = () => {
   // Pawns
-  // for (let i = 0; i < 8; i++) {
-  //   initPiece(1, i, "images/white/Pawn.svg", "Pawn", "white");
+  for (let i = 0; i < 8; i++) {
+    initPiece(1, i, "images/white/Pawn.svg", "Pawn", "white");
 
-  //   initPiece(6, i, "images/black/Pawn.svg", "Pawn", "black");
-  // }
+    initPiece(6, i, "images/black/Pawn.svg", "Pawn", "black");
+  }
 
   // Rooks
   initPiece(0, 0, "images/white/Rook.svg", "Rook", "white");
   initPiece(0, 7, "images/white/Rook.svg", "Rook", "white");
 
-  initPiece(6, 0, "images/black/Rook.svg", "Rook", "black");
+  initPiece(7, 0, "images/black/Rook.svg", "Rook", "black");
   initPiece(7, 7, "images/black/Rook.svg", "Rook", "black");
 
   // Knights
@@ -115,7 +113,10 @@ const setPieces = () => {
 const displayBoard = () => {
   cells.forEach((cell) => {
     let c = getWithCoordinates(cell.x, cell.y);
-    if (c.path == "null") return;
+    if (c.path == "null") {
+      cell.style.backgroundImage = "";
+      return;
+    }
     cell.style.backgroundImage = `url(${c.path})`;
   });
 };
