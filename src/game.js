@@ -1,5 +1,33 @@
 let board = [];
+let taken = [];
+let white_taken = 0,
+  black_taken = 0;
 const cells = document.querySelectorAll(".cell");
+
+const displayTaken = () => {
+  const whites = document.querySelector("#white-pieces");
+  const blacks = document.querySelector("#black-pieces");
+  const white_count = document.querySelector("#white-taken-count");
+  const black_count = document.querySelector("#black-taken-count");
+
+  taken.forEach((piece) => {
+    const takenPiece = document.createElement("div");
+    takenPiece.title = piece.name;
+    takenPiece.classList.add("taken-piece");
+    takenPiece.style.backgroundImage = `url(images/${piece.color}/${piece.name}.svg)`;
+
+    if (piece.color == "white") {
+      whites.appendChild(takenPiece);
+      white_taken++;
+    } else {
+      blacks.appendChild(takenPiece);
+      black_taken++;
+    }
+  });
+  taken = [];
+  white_count.textContent = white_taken;
+  black_count.textContent = black_taken;
+};
 
 const initBoard = () => {
   for (let i = 0; i < 8; i++) {

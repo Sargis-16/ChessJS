@@ -19,6 +19,10 @@ const isValid = (pos) => {
 };
 
 const move = (cell, pos) => {
+  if (get(pos).name != "empty") {
+    taken.push(get(pos));
+    displayTaken();
+  }
   board[pos.x][pos.y] = {
     x: pos.x,
     y: pos.y,
@@ -50,23 +54,26 @@ const getMoves = (cell) => {
   let pieceMet = false;
   switch (cell.name) {
     case "Pawn":
+      let pos = {};
       if (cell.color == "black" && cell.x != 0 && cell.x != 7) {
-        if (getWithCoordinates(cell.x - 1, cell.y).name == "empty")
-          moves.push({ x: cell.x - 1, y: cell.y });
-        if (
-          cell.x == 6 &&
-          getWithCoordinates(cell.x - 2, cell.y).name == "empty"
-        )
-          moves.push({ x: cell.x - 2, y: cell.y });
+        pos = { x: cell.x - 1, y: cell.y };
+        if (get(pos).name == "empty") moves.push(pos);
+        pos = { x: cell.x - 2, y: cell.y };
+        if (cell.x == 6 && get(pos).name == "empty") moves.push(pos);
+        for (let i = -1; i <= 1; i += 2) {
+          pos = { x: cell.x - 1, y: cell.y + i };
+          if (get(pos).color == "white") moves.push(pos);
+        }
       }
       if (cell.color == "white" && cell.x != 0 && cell.x != 7) {
-        if (getWithCoordinates(cell.x + 1, cell.y).name == "empty")
-          moves.push({ x: cell.x + 1, y: cell.y });
-        if (
-          cell.x == 1 &&
-          getWithCoordinates(cell.x + 2, cell.y).name == "empty"
-        )
-          moves.push({ x: cell.x + 2, y: cell.y });
+        pos = { x: cell.x + 1, y: cell.y };
+        if (get(pos).name == "empty") moves.push(pos);
+        pos = { x: cell.x + 2, y: cell.y };
+        if (cell.x == 1 && get(pos).name == "empty") moves.push(pos);
+        for (let i = -1; i <= 1; i += 2) {
+          pos = { x: cell.x + 1, y: cell.y + i };
+          if (get(pos).color == "black") moves.push(pos);
+        }
       }
       activePiece = cell;
       return moves;
@@ -226,11 +233,13 @@ const getMoves = (cell) => {
         for (let j = -1; j <= 1; j++) {
           let isSame = i == 0 && j == 0;
           let pos = { x: cell.x + i, y: cell.y + j };
-          if (
-            (isValid(pos) && !isSame && get(pos).name == "empty") ||
-            canTake(get(pos).color, cell.color)
-          )
-            moves.push(pos);
+          if (isValid(pos)) {
+            if (
+              (!isSame && get(pos).name == "empty") ||
+              canTake(get(pos).color, cell.color)
+            )
+              moves.push(pos);
+          }
         }
       }
       activePiece = cell;

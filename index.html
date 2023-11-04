@@ -6,6 +6,23 @@
     <title>Chess</title>
   </head>
   <body>
+    <div id="sidebar">
+      <div id="steps"></div>
+      <div id="taken">
+        <div id="white-taken">
+          <p class="taken-paragraph">
+            White pieces taken <span id="white-taken-count">0</span>
+          </p>
+          <div id="white-pieces"></div>
+        </div>
+        <div id="black-taken">
+          <p class="taken-paragraph">
+            Black pieces taken <span id="black-taken-count">0</span>
+          </p>
+          <div id="black-pieces"></div>
+        </div>
+      </div>
+    </div>
     <div id="board" class="board">
       <div class="col-names outline">
         <div class="name">A</div>
@@ -64,5 +81,5 @@
   </body>
   <script src="app.js"></script>
   <script src="src/game.js"></script>
-  <script src="src/click.js"></script>
+  <script src="src/main.js"></script>
 </html>
