@@ -62,7 +62,9 @@ const getMoves = (cell) => {
         if (cell.x == 6 && get(pos).name == "empty") moves.push(pos);
         for (let i = -1; i <= 1; i += 2) {
           pos = { x: cell.x - 1, y: cell.y + i };
-          if (get(pos).color == "white") moves.push(pos);
+          if (isValid(pos)) {
+            if (get(pos).color == "white") moves.push(pos);
+          }
         }
       }
       if (cell.color == "white" && cell.x != 0 && cell.x != 7) {
@@ -72,7 +74,9 @@ const getMoves = (cell) => {
         if (cell.x == 1 && get(pos).name == "empty") moves.push(pos);
         for (let i = -1; i <= 1; i += 2) {
           pos = { x: cell.x + 1, y: cell.y + i };
-          if (get(pos).color == "black") moves.push(pos);
+          if (isValid(pos)) {
+            if (get(pos).color == "black") moves.push(pos);
+          }
         }
       }
       activePiece = cell;

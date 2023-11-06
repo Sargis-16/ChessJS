@@ -22,7 +22,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #222;
+  background: #333 url(images/background.png);
 }
 
 .board {
