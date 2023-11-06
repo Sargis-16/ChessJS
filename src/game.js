@@ -3,6 +3,19 @@ let taken = [];
 let white_taken = 0,
   black_taken = 0;
 const cells = document.querySelectorAll(".cell");
+const promo = document.querySelectorAll(".piece-img");
+
+promo.forEach((block) => {
+  block.addEventListener("click", () => {
+    let piece = getWithCoordinates(activePiece.x, activePiece.y);
+    board[activePiece.x][activePiece.y].name = block.id;
+    board[activePiece.x][
+      activePiece.y
+    ].path = `images/${piece.color}/${block.id}.svg`;
+    modal.classList.remove("modal-open");
+    displayBoard();
+  });
+});
 
 const displayTaken = () => {
   const whites = document.querySelector("#white-pieces");
@@ -48,8 +61,8 @@ const initBoard = () => {
   // board[dx][dy] = {
   //   x: dx,
   //   y: dy,
-  //   name: "Queen",
-  //   path: "images/black/Queen.svg",
+  //   name: "Pawn",
+  //   path: "images/black/Pawn.svg",
   //   color: "black",
   // };
 };
