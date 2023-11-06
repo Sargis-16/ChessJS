@@ -237,3 +237,7 @@ main {
 .taken-paragraph:hover {
   border-bottom-style: dashed;
 }
+
+.checked {
+  background-color: red;
+}

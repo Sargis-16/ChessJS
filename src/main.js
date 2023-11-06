@@ -1,6 +1,8 @@
 let activePiece = {};
 const modal = document.querySelector("#modal");
 const promoBlocks = document.querySelectorAll(".piece-img");
+let check = false;
+let checkedPiece = {};
 
 const canTake = (color1, color2) => {
   if (
@@ -46,6 +48,27 @@ const move = (cell, pos) => {
   const moveSound = document.querySelector("#move-sound");
   moveSound.play();
   activePiece = get(pos);
+
+  for (const move of getMoves(activePiece)) {
+    const p = getWithCoordinates(move.x, move.y);
+    if (
+      p.name == "King" &&
+      ((activePiece.color == "black" && p.color == "white") ||
+        (activePiece.color == "white" && p.color == "black"))
+    ) {
+      cells[(7 - move.x) * 8 + move.y].classList.add("checked");
+      check = true;
+      checkedPiece = p;
+      break;
+    } else check = false;
+  }
+  if (!check) {
+    cells.forEach((cell) => {
+      if (cell.classList.contains("checked")) {
+        cell.classList.remove("checked");
+      }
+    });
+  }
   displayBoard();
 };
 
