@@ -23,6 +23,7 @@ body {
   justify-content: center;
   align-items: center;
   background: #333 url(images/background.png);
+  overflow: hidden;
 }
 
 .board {
