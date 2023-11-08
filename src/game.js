@@ -17,6 +17,25 @@ promo.forEach((block) => {
   });
 });
 
+const getArmenianName = (name) => {
+  switch (name) {
+    case "King":
+      return "Արքա";
+    case "Knight":
+      return "Ձի";
+    case "Queen":
+      return "Թագուհի";
+    case "Bishop":
+      return "Փիղ";
+    case "Rook":
+      return "Նավակ";
+    case "Pawn":
+      return "Զինվոր";
+    default:
+      return "Error";
+  }
+};
+
 const displayTaken = () => {
   const whites = document.querySelector("#white-pieces");
   const blacks = document.querySelector("#black-pieces");
@@ -25,7 +44,7 @@ const displayTaken = () => {
 
   taken.forEach((piece) => {
     const takenPiece = document.createElement("div");
-    takenPiece.title = piece.name;
+    takenPiece.title = getArmenianName(piece.name);
     takenPiece.classList.add("taken-piece");
     takenPiece.style.backgroundImage = `url(images/${piece.color}/${piece.name}.svg)`;
 
@@ -71,19 +90,14 @@ const getInitial = (name) => {
   switch (name) {
     case "Rook":
       return "R";
-
     case "Knight":
       return "Kn";
-
     case "Bishop":
       return "B";
-
     case "King":
       return "K";
-
     case "Queen":
       return "Q";
-
     case "Pawn":
       return "P";
     default:
