@@ -78,11 +78,14 @@ const getMoves = (cell) => {
   switch (cell.name) {
     case "Pawn":
       let pos = {};
+      let canGoBig = true;
       if (cell.color == "black" && cell.x != 0 && cell.x != 7) {
         pos = { x: cell.x - 1, y: cell.y };
         if (get(pos).name == "empty") moves.push(pos);
+        else canGoBig = false;
         pos = { x: cell.x - 2, y: cell.y };
-        if (cell.x == 6 && get(pos).name == "empty") moves.push(pos);
+        if (cell.x == 6 && get(pos).name == "empty" && canGoBig)
+          moves.push(pos);
         for (let i = -1; i <= 1; i += 2) {
           pos = { x: cell.x - 1, y: cell.y + i };
           if (isValid(pos)) {
@@ -93,8 +96,10 @@ const getMoves = (cell) => {
       if (cell.color == "white" && cell.x != 0 && cell.x != 7) {
         pos = { x: cell.x + 1, y: cell.y };
         if (get(pos).name == "empty") moves.push(pos);
+        else canGoBig = false;
         pos = { x: cell.x + 2, y: cell.y };
-        if (cell.x == 1 && get(pos).name == "empty") moves.push(pos);
+        if (cell.x == 1 && get(pos).name == "empty" && canGoBig)
+          moves.push(pos);
         for (let i = -1; i <= 1; i += 2) {
           pos = { x: cell.x + 1, y: cell.y + i };
           if (isValid(pos)) {
