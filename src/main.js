@@ -15,12 +15,22 @@ const canTake = (color1, color2) => {
   return false;
 };
 
+const canTakeStrict = (color1, color2) => {
+  if (
+    (color1 == "black" && color2 == "white") ||
+    (color1 == "white" && color2 == "black")
+  )
+    return true;
+  return false;
+};
+
 const isValid = (pos) => {
   if (pos.x < 0 || pos.x > 7 || pos.y > 7 || pos.y < 0) return false;
   return true;
 };
 
 const move = (cell, pos) => {
+  check = false;
   if (get(pos).name != "empty") {
     taken.push(get(pos));
     displayTaken();
@@ -49,19 +59,14 @@ const move = (cell, pos) => {
   moveSound.play();
   activePiece = get(pos);
 
-  for (const move of getMoves(activePiece)) {
-    const p = getWithCoordinates(move.x, move.y);
-    if (
-      p.name == "King" &&
-      ((activePiece.color == "black" && p.color == "white") ||
-        (activePiece.color == "white" && p.color == "black"))
-    ) {
-      cells[(7 - move.x) * 8 + move.y].classList.add("checked");
-      check = true;
-      checkedPiece = p;
-      break;
-    } else check = false;
+  if (cell.name == "King") {
+    if (cell.color == "black") blackKing = get(pos);
+    else whiteKing = get(pos);
   }
+
+  isCheck();
+  if (check)
+    cells[(7 - checkedPiece.x) * 8 + checkedPiece.y].classList.add("checked");
   if (!check) {
     cells.forEach((cell) => {
       if (cell.classList.contains("checked")) {
@@ -72,7 +77,7 @@ const move = (cell, pos) => {
   displayBoard();
 };
 
-const getMoves = (cell) => {
+const getMoves = (cell, callplace = null) => {
   let moves = [];
   let pieceMet = false;
   switch (cell.name) {
@@ -276,6 +281,15 @@ const getMoves = (cell) => {
       }
       activePiece = cell;
       return moves;
+    case "PawnKing":
+      let dx = cell.color == "black" ? -1 : 1;
+      for (let i = -1; i <= 1; i += 2) {
+        let pos = { x: cell.x + dx, y: cell.y + i };
+        if (isValid(pos)) {
+          moves.push(pos);
+        }
+      }
+      return moves;
   }
   return moves;
 };
@@ -286,20 +300,32 @@ const clearBoard = () => {
   });
 };
 
-cells.forEach((cell) => {
-  cell.addEventListener("click", () => {
-    if (cell.classList.contains("can")) {
-      move(activePiece, { x: cell.x, y: cell.y });
-      clearBoard();
-      return;
-    } else {
-      clearBoard();
-      activePiece = null;
-    }
-    let c = getWithCoordinates(cell.x, cell.y);
-    if (c.name == "empty") return;
-    getMoves(c).forEach((move) => {
-      cells[(7 - move.x) * 8 + move.y].classList.add("can");
-    });
+const getAllMoves = (piece) => {
+  let allMoves = [];
+  const pieceNames = ["Knight", "Queen", "PawnKing"];
+  pieceNames.forEach((name) => {
+    let temp = getMoves(
+      {
+        name: name,
+        x: piece.x,
+        y: piece.y,
+        color: piece.color,
+      },
+      "king"
+    );
+    allMoves.push({ move: [...temp], name: name, color: piece.color });
   });
-});
+  return allMoves;
+};
+
+const isCheck = () => {
+  const kings = [whiteKing, blackKing];
+  let pawns = [],
+    queens = [],
+    knights = [];
+
+  kings.forEach((king) => {
+    const moves = getAllMoves(king);
+  });
+  if (check) return;
+};

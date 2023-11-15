@@ -2,6 +2,9 @@ let board = [];
 let taken = [];
 let white_taken = 0,
   black_taken = 0;
+let plays = "white";
+let whiteKing = {},
+  blackKing = {};
 const cells = document.querySelectorAll(".cell");
 const promo = document.querySelectorAll(".piece-img");
 
@@ -75,15 +78,6 @@ const initBoard = () => {
     }
     board.push(arr);
   }
-  // let dx = 3,
-  //   dy = 4;
-  // board[dx][dy] = {
-  //   x: dx,
-  //   y: dy,
-  //   name: "Pawn",
-  //   path: "images/black/Pawn.svg",
-  //   color: "black",
-  // };
 };
 
 const getInitial = (name) => {
@@ -161,8 +155,10 @@ const setPieces = () => {
 
   // Kings
   initPiece(0, 4, "images/white/King.svg", "King", "white");
+  whiteKing = getWithCoordinates(0, 4);
 
   initPiece(7, 4, "images/black/King.svg", "King", "black");
+  blackKing = getWithCoordinates(7, 4);
 };
 
 const displayBoard = () => {
@@ -176,6 +172,42 @@ const displayBoard = () => {
   });
 };
 
+const getColorArmenian = () => {
+  if (plays == "white") return "Սպիտակ";
+  else return "Սև";
+};
+
+const switchColor = () => {
+  const playingColor = document.querySelector("#playing-color");
+  if (plays == "white") plays = "black";
+  else plays = "white";
+  playingColor.textContent = getColorArmenian(plays) + "ը";
+};
+
+const startGame = () => {
+  cells.forEach((cell) => {
+    cell.addEventListener("click", () => {
+      if (cell.classList.contains("can")) {
+        move(activePiece, { x: cell.x, y: cell.y });
+        clearBoard();
+        switchColor();
+        return;
+      } else {
+        clearBoard();
+        activePiece = null;
+      }
+      let c = getWithCoordinates(cell.x, cell.y);
+      if (c.name == "empty") return;
+      if (c.color == plays) {
+        getMoves(c).forEach((move) => {
+          cells[(7 - move.x) * 8 + move.y].classList.add("can");
+        });
+      }
+    });
+  });
+};
+
 initBoard();
 setPieces();
 displayBoard();
+startGame();
