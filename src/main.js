@@ -58,7 +58,7 @@ const move = (cell, pos) => {
     modal.classList.add("modal-open");
     promoBlocks.forEach((block) => {
       block.style.backgroundImage = `url(images/${cell.color}/${block.id}.svg)`;
-      let temp = activePiece; // ADDING FUCKING TEMP VARIBALE CUZ JAVASCRIPT DECIDED THAT IN EVENTLISTENER CALLBACK FUNCTION THE ACTIVE PIECE VALUE SHOULD CHANGE FOR WHATEVER THE FUCK REASON !!!!!
+      let temp = activePiece; //! ADDING FUCKING TEMP VARIBALE CUZ JAVASCRIPT DECIDED THAT IN EVENTLISTENER CALLBACK FUNCTION THE ACTIVE PIECE VALUE SHOULD CHANGE FOR WHATEVER THE FUCK REASON !!!!!
       block.addEventListener("click", () => {
         promote(block.id, temp);
       });
