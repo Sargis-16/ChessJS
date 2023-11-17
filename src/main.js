@@ -1,6 +1,8 @@
 let activePiece = {};
 const modal = document.querySelector("#modal");
 const promoBlocks = document.querySelectorAll(".piece-img");
+const takeSound = document.querySelector("#take-sound");
+const moveSound = document.querySelector("#move-sound");
 let check = false;
 let checkedPiece = {};
 
@@ -15,7 +17,7 @@ const canTake = (color1, color2) => {
   return false;
 };
 
-const canTakeStrict = (color1, color2) => {
+const areOppositeColors = (color1, color2) => {
   if (
     (color1 == "black" && color2 == "white") ||
     (color1 == "white" && color2 == "black")
@@ -31,8 +33,11 @@ const isValid = (pos) => {
 
 const move = (cell, pos) => {
   check = false;
+  let isTaken = false;
   if (get(pos).name != "empty") {
     taken.push(get(pos));
+    takeSound.play();
+    isTaken = true;
     displayTaken();
   }
   board[pos.x][pos.y] = {
@@ -55,8 +60,7 @@ const move = (cell, pos) => {
       block.style.backgroundImage = `url(images/${cell.color}/${block.id}.svg)`;
     });
   }
-  const moveSound = document.querySelector("#move-sound");
-  moveSound.play();
+  if (!isTaken) moveSound.play();
   activePiece = get(pos);
 
   if (cell.name == "King") {
@@ -65,8 +69,9 @@ const move = (cell, pos) => {
   }
 
   isCheck();
-  if (check)
+  if (check) {
     cells[(7 - checkedPiece.x) * 8 + checkedPiece.y].classList.add("checked");
+  }
   if (!check) {
     cells.forEach((cell) => {
       if (cell.classList.contains("checked")) {
@@ -302,7 +307,7 @@ const clearBoard = () => {
 
 const getAllMoves = (piece) => {
   let allMoves = [];
-  const pieceNames = ["Knight", "Queen", "PawnKing"];
+  const pieceNames = ["Knight", "Bishop", "Rook", "PawnKing"];
   pieceNames.forEach((name) => {
     let temp = getMoves(
       {
@@ -321,11 +326,75 @@ const getAllMoves = (piece) => {
 const isCheck = () => {
   const kings = [whiteKing, blackKing];
   let pawns = [],
-    queens = [],
+    rooks = [],
+    bishops = [],
     knights = [];
+  let moves;
 
   kings.forEach((king) => {
-    const moves = getAllMoves(king);
+    moves = getAllMoves(king);
+    moves.forEach((move) => {
+      if (move.name == "Rook") rooks.push({ move: move, king: king });
+      if (move.name == "Bishop") bishops.push({ move: move, king: king });
+      if (move.name == "PawnKing") pawns.push({ move: move, king: king });
+      if (move.name == "Knight") knights.push({ move: move, king: king });
+    });
+  });
+  rooks.forEach((rMove) => {
+    for (let i = 0; i < rMove.move.move.length; i++) {
+      if (
+        getWithCoordinates(rMove.move.move[i].x, rMove.move.move[i].y).name ==
+          "Rook" ||
+        getWithCoordinates(rMove.move.move[i].x, rMove.move.move[i].y).name ==
+          "Queen"
+      ) {
+        checkedPiece = rMove.king;
+        check = true;
+        return;
+      }
+    }
+  });
+  bishops.forEach((bMove) => {
+    for (let i = 0; i < bMove.move.move.length; i++) {
+      if (
+        getWithCoordinates(bMove.move.move[i].x, bMove.move.move[i].y).name ==
+          "Bishop" ||
+        getWithCoordinates(bMove.move.move[i].x, bMove.move.move[i].y).name ==
+          "Queen"
+      ) {
+        checkedPiece = bMove.king;
+        check = true;
+        return;
+      }
+    }
+  });
+  pawns.forEach((pMove) => {
+    for (let i = 0; i < pMove.move.move.length; i++) {
+      if (
+        getWithCoordinates(pMove.move.move[i].x, pMove.move.move[i].y).name ==
+          "Pawn" &&
+        areOppositeColors(
+          pMove.king.color,
+          getWithCoordinates(pMove.move.move[i].x, pMove.move.move[i].y).color
+        )
+      ) {
+        checkedPiece = pMove.king;
+        check = true;
+        return;
+      }
+    }
+  });
+  knights.forEach((kMove) => {
+    for (let i = 0; i < kMove.move.move.length; i++) {
+      if (
+        getWithCoordinates(kMove.move.move[i].x, kMove.move.move[i].y).name ==
+        "Knight"
+      ) {
+        checkedPiece = kMove.king;
+        check = true;
+        return;
+      }
+    }
   });
   if (check) return;
 };
