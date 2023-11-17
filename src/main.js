@@ -1,4 +1,3 @@
-let activePiece = {};
 const modal = document.querySelector("#modal");
 const promoBlocks = document.querySelectorAll(".piece-img");
 const takeSound = document.querySelector("#take-sound");
@@ -54,14 +53,18 @@ const move = (cell, pos) => {
     path: "null",
     color: "none",
   };
+  activePiece = get(pos);
   if (cell.name == "Pawn" && (pos.x == 0 || pos.x == 7)) {
     modal.classList.add("modal-open");
     promoBlocks.forEach((block) => {
       block.style.backgroundImage = `url(images/${cell.color}/${block.id}.svg)`;
+      let temp = activePiece; // ADDING FUCKING TEMP VARIBALE CUZ JAVASCRIPT DECIDED THAT IN EVENTLISTENER CALLBACK FUNCTION THE ACTIVE PIECE VALUE SHOULD CHANGE FOR WHATEVER THE FUCK REASON !!!!!
+      block.addEventListener("click", () => {
+        promote(block.id, temp);
+      });
     });
   }
   if (!isTaken) moveSound.play();
-  activePiece = get(pos);
 
   if (cell.name == "King") {
     if (cell.color == "black") blackKing = get(pos);

@@ -1,5 +1,6 @@
 let board = [];
 let taken = [];
+let activePiece = {};
 let white_taken = 0,
   black_taken = 0;
 let plays = "white";
@@ -8,17 +9,16 @@ let whiteKing = {},
 const cells = document.querySelectorAll(".cell");
 const promo = document.querySelectorAll(".piece-img");
 
-promo.forEach((block) => {
-  block.addEventListener("click", () => {
-    let piece = getWithCoordinates(activePiece.x, activePiece.y);
-    board[activePiece.x][activePiece.y].name = block.id;
-    board[activePiece.x][
-      activePiece.y
-    ].path = `images/${piece.color}/${block.id}.svg`;
-    modal.classList.remove("modal-open");
-    displayBoard();
-  });
-});
+const promote = (name, promotePiece) => {
+  console.log(promotePiece);
+  let piece = getWithCoordinates(promotePiece.x, promotePiece.y);
+  board[promotePiece.x][promotePiece.y].name = name;
+  board[promotePiece.x][
+    promotePiece.y
+  ].path = `images/${piece.color}/${name}.svg`;
+  modal.classList.remove("modal-open");
+  displayBoard();
+};
 
 const getArmenianName = (name) => {
   switch (name) {
