@@ -8,6 +8,8 @@ let whiteKing = {},
   blackKing = {};
 const cells = document.querySelectorAll(".cell");
 const promo = document.querySelectorAll(".piece-img");
+const hoverSound = document.querySelector("#hover-sound");
+hoverSound.volume = 0.1;
 
 const promote = (name, promotePiece) => {
   console.log(promotePiece);
@@ -205,6 +207,24 @@ const startGame = () => {
       }
     });
   });
+};
+
+cells.forEach((cell) => {
+  cell.addEventListener("mouseover", () => {
+    playAudio(hoverSound);
+  });
+});
+
+const playAudio = (audio) => {
+  if (audio.readyState >= 2) {
+    audio.currentTime = 0;
+    audio.play();
+  } else {
+    audio.addEventListener("canplaythrough", function () {
+      audio.currentTime = 0;
+      audio.play();
+    });
+  }
 };
 
 initBoard();

@@ -14,6 +14,7 @@
   --border-color: #c25b36;
   --board-size: 800px;
   --highlight-color: #1d811d;
+  --background-color: #333;
 }
 
 #loader {
@@ -24,11 +25,51 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: disappear 1s 2s forwards;
+}
+
+.loader-end {
+  animation: disappear 1s forwards;
 }
 
 #logo {
   position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#main-text {
+  color: var(--white-cell-color);
+  font-size: 28px;
+  animation: blink 1.75s ease-in-out infinite;
+  cursor: pointer;
+  margin-top: 450px;
+  position: fixed;
+  border-radius: 5px;
+  padding-inline: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+#main-text:hover {
+  background: var(--white-cell-color);
+  color: var(--background-color);
+}
+
+#loader-background,
+#logo img {
+  -webkit-user-drag: none;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes disappear {
@@ -51,13 +92,13 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #333 url(images/background.png);
+  background: var(--background-color) url(images/background.png);
   overflow: hidden;
   gap: 5px;
 }
 
 #playing-info {
-  color: #efefef;
+  color: var(--white-cell-color);
 }
 
 .board {
@@ -198,7 +239,7 @@ main {
   height: 100%;
   min-width: min(25%, 20rem);
   position: fixed;
-  background: #333;
+  background: var(--background-color);
   border-left: 1px solid gray;
   inset: 0 0 0 80%;
   color: var(--highlight-color);

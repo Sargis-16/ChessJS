@@ -1,4 +1,15 @@
 const docBoard = document.querySelector("#cells");
+const mainText = document.querySelector("#main-text");
+const loader = document.querySelector("#loader");
+
+const hideLoader = () => {
+  loader.classList.add("loader-end");
+};
+
+loader.addEventListener("click", hideLoader);
+document.addEventListener("keypress", (e) => {
+  if (e.key == "Enter") hideLoader();
+});
 
 const createBoard = () => {
   for (let i = 0; i < 8; i++) {
