@@ -12,7 +12,6 @@ const hoverSound = document.querySelector("#hover-sound");
 hoverSound.volume = 0.1;
 
 const promote = (name, promotePiece) => {
-  console.log(promotePiece);
   let piece = getWithCoordinates(promotePiece.x, promotePiece.y);
   board[promotePiece.x][promotePiece.y].name = name;
   board[promotePiece.x][
@@ -99,10 +98,6 @@ const getInitial = (name) => {
     default:
       return "E";
   }
-};
-
-const printCell = (cell) => {
-  console.log(cell.x + 1, String.fromCharCode(cell.y + 65));
 };
 
 const get = (pos) => {
@@ -216,14 +211,16 @@ cells.forEach((cell) => {
 });
 
 const playAudio = (audio) => {
-  if (audio.readyState >= 2) {
-    audio.currentTime = 0;
-    audio.play();
-  } else {
-    audio.addEventListener("canplaythrough", function () {
+  if (canPlayAudio) {
+    if (audio.readyState >= 2) {
       audio.currentTime = 0;
       audio.play();
-    });
+    } else {
+      audio.addEventListener("canplaythrough", function () {
+        audio.currentTime = 0;
+        audio.play();
+      });
+    }
   }
 };
 

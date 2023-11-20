@@ -85,6 +85,31 @@
   }
 }
 
+#ctrl-btns {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 5px;
+}
+
+#hover-sound-toggle {
+  width: 35px;
+  aspect-ratio: 1;
+  outline: 1px solid var(--white-cell-color);
+  border: none;
+  border-radius: 5px;
+  background: var(--background-color);
+  cursor: pointer;
+  background-image: url(images/enabled-sound.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 75%;
+}
+
+.disabled-sound {
+  background-image: url(images/disabled-sound.png) !important;
+}
+
 body {
   width: 100vw;
   height: 100vh;

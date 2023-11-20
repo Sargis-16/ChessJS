@@ -35,7 +35,7 @@ const move = (cell, pos) => {
   let isTaken = false;
   if (get(pos).name != "empty") {
     taken.push(get(pos));
-    takeSound.play();
+    playAudio(takeSound);
     isTaken = true;
     displayTaken();
   }
@@ -64,7 +64,7 @@ const move = (cell, pos) => {
       });
     });
   }
-  if (!isTaken) moveSound.play();
+  if (!isTaken) playAudio(moveSound);
 
   if (cell.name == "King") {
     if (cell.color == "black") blackKing = get(pos);

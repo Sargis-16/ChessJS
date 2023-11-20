@@ -1,6 +1,14 @@
 const docBoard = document.querySelector("#cells");
 const mainText = document.querySelector("#main-text");
 const loader = document.querySelector("#loader");
+const hoverSoundBtn = document.querySelector("#hover-sound-toggle");
+
+let canPlayAudio = true;
+
+hoverSoundBtn.addEventListener("click", () => {
+  canPlayAudio = !canPlayAudio;
+  hoverSoundBtn.classList.toggle("disabled-sound");
+});
 
 const hideLoader = () => {
   loader.classList.add("loader-end");
